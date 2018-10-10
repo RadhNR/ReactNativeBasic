@@ -7,7 +7,9 @@ import Home from './app/components/Home';
 import ProductList from './app/components/ProductList';
 import Checkout from './app/components/Checkout';
 
-import { createStackNavigator } from 'react-navigation';
+import { Ionicons, MaterialIcons } from '@expo/vector-icons';
+
+import { createStackNavigator, createBottomTabNavigator } from 'react-navigation';
 
 // returns a component
 const StackNavigator = createStackNavigator({
@@ -17,18 +19,59 @@ const StackNavigator = createStackNavigator({
     //   title: 'Home'
     // }
   },
-  Cart: {
-    screen: Cart
+  // Cart: { // keep it only in one place, else it will take localscope and we will get confuse
+  //   screen: Cart
+  // },
+
+  //TODO: add Counter 
+  Counter: {
+    screen: Counter
   },
   Checkout: {
     screen: Checkout
   }
 });
 
+
+const TabNavigator = createBottomTabNavigator({
+  Home: {
+    screen: StackNavigator //Home
+  },
+  ProductList: {
+    screen: ProductList
+  },
+  Cart: {
+    screen: Cart
+  }
+}, {
+    navigationOptions: ({ navigation }) => ({
+      tabBarIcon: ({ focused, horizontal, tintColor }) => {
+        const { routeName } = navigation.state;
+        let iconName;
+        if (routeName === 'Home') {
+          iconName = `ios-home${focused ? '' : '-outline'}`;
+        } else if (routeName === 'Cart') {
+          iconName = `ios-cart${focused ? '' : '-outline'}`;
+        } else {
+          iconName = `ios-list-box${focused ? '' : '-outline'}`;
+        }
+
+        // You can return any component that you like here! We usually use an
+        // icon component from react-native-vector-icons
+        return <Ionicons name={iconName} size={horizontal ? 20 : 25} color={tintColor} />;
+      },
+    }),
+    tabBarOptions: {
+      activeTintColor: 'red',
+      inactiveTintColor: 'gray',
+    },
+  });
+
 export default class App extends React.Component {
   render() {
     return (
-      <StackNavigator />
+
+      <TabNavigator />
     );
   }
 }

@@ -30,6 +30,7 @@ export default class Home extends React.Component {
                 <Text style={{ fontSize: 30 }}> Home </Text>
                 <Button title="Cart" onPress={() => this.goToPage('Cart')} />
                 <Button title="Checkout" onPress={() => this.goToPage('Checkout')} />
+                <Button title="Counter" onPress={() => this.goToPage('Counter')} />
             </View>
         )
     }
